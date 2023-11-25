@@ -1,7 +1,8 @@
 ﻿public class NumbJagged
 {
-    const int minElement = 0, maxElement = 5;
-    int[][] jagArr;
+    private const int minElement = 0, maxElement = 5;
+    public int[][] jagArr;
+
     public NumbJagged(int N)
     {
         if (N < 0)
@@ -12,17 +13,24 @@
 
         for (int i = 0; i < N; ++i)
         {
+            string str = String.Empty;
             int element = rnd.Next(minElement, maxElement);
             while (element != 0)
             {
-                jagArr[i].Append(element);
+                str += element.ToString();
                 element = rnd.Next(minElement, maxElement);
             }
-            jagArr[i].Append(element);
+            str += element.ToString();
+            
+            jagArr[i] = new int[str.Length];
+            for (int j = 0; j < str.Length; ++j)
+            {
+                jagArr[i][j] = str[j] - '0';
+            }
         }
     }
 
-    static public string[] StringOut(int[][] arr)
+    internal static string[] StringOut(int[][] arr)
     {
         string[] outArr = new string[arr.GetLength(0)];
         for (int i = 0; i < outArr.Length; ++i)
@@ -38,16 +46,40 @@
         return outArr;
     }
 
-    static public int[] MinSquareNumb(int[][] arr, int numOfRow)
+    internal static int[] MinSquareNumb(int[][] arr, int numOfRow)
     {
         numOfRow -= 1;
         if (numOfRow < 0)
             throw new ArgumentOutOfRangeException("Номер строки не может быть отрицательным");
         if (numOfRow >= arr.GetLength(0))
             throw new ArgumentOutOfRangeException("Номер строки больше количества строк в массиве");
+        if (arr[numOfRow].Length < 3)
+            throw new ArgumentException("В выбранной строке меньше трех элементов");
 
-        string strRow = NumbJagged.StringOut(arr)[numOfRow];
-        return new int[0];
+        int n = arr[numOfRow].Length;
+        int[] ans = new int[3];
+        double squareCur = 0;
 
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = i + 1; j < n; ++j)
+            {
+                for (int g = j + 1; g < n; ++g)
+                {
+                    if (Methods.ExistenceOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g])){
+                        double squareNew = Methods.SquareOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g]);
+                        if (squareNew > squareCur)
+                        {
+                            ans[0] = arr[numOfRow][i];
+                            ans[1] = arr[numOfRow][j];
+                            ans[2] = arr[numOfRow][g];
+                            squareCur = squareNew;
+                        }
+                    }
+                }
+            }
+        }
+
+        return ans;
     }
 }
