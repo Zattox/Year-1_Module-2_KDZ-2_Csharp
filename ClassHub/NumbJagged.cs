@@ -2,7 +2,10 @@
 {
     private const int minElement = 0, maxElement = 5;
     public int[][] jagArr;
-
+    public NumbJagged()
+    {
+        jagArr = new int[0][];
+    }
     public NumbJagged(int N)
     {
         if (N < 0)
@@ -29,7 +32,6 @@
             }
         }
     }
-
     internal static string[] StringOut(int[][] arr)
     {
         string[] outArr = new string[arr.GetLength(0)];
@@ -50,7 +52,7 @@
     {
         numOfRow -= 1;
         if (numOfRow < 0)
-            throw new ArgumentOutOfRangeException("Номер строки не может быть отрицательным");
+            throw new ArgumentOutOfRangeException("Номер строки не может быть меньше 1");
         if (numOfRow >= arr.GetLength(0))
             throw new ArgumentOutOfRangeException("Номер строки больше количества строк в массиве");
         if (arr[numOfRow].Length < 3)
