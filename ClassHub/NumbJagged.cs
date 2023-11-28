@@ -68,7 +68,8 @@
             {
                 for (int g = j + 1; g < n; ++g)
                 {
-                    if (Methods.ExistenceOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g])){
+                    if (Methods.ExistenceOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g]))
+                    {
                         double squareNew = Methods.SquareOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g]);
                         if (squareNew > squareCur)
                         {

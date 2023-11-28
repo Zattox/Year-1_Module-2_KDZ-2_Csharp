@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Numerics;
 
@@ -14,8 +15,10 @@ public class Methods
         double s = p * (p - a) * (p - b) * (p - c);
         return s;
     }
+
     public static void PrintOfArrayInfo(int[][] jaggerArr, string nPath)
     {
+
         StreamWriter sw = new StreamWriter(nPath);
 
         sw.WriteLine("Зубчатый массив: ");
@@ -45,45 +48,50 @@ public class Methods
             }
         }
         sw.Close();
+
     }
-    public static string GetName()
+    public static void PrintWithColor(string message, ConsoleColor color)
     {
-        string fileName;
-        while (true)
-        {
-            fileName = Console.ReadLine();
-            while(fileName.IndexOfAny(Path.GetInvalidPathChars()) != -1)
-            {
-                Console.WriteLine("Вы ввели файл с недопустимыми символами. Повторите попытку");
-                Console.WriteLine("Введите названия текстового файла с данными: ");
-                fileName = Console.ReadLine();
-            }
-            return fileName;
-        }
+        Console.ForegroundColor = color;
+        Console.WriteLine(message, color);
+        Console.ForegroundColor= ConsoleColor.White;
     }
-    public static string GetPath(string fileName)
+    public static string GetInputPath()
+    {
+        PrintWithColor($"Введите абсолютный путь до файла с входными данными: ", ConsoleColor.Blue);
+        string fPath = Console.ReadLine();
+        while (fPath.IndexOfAny(Path.GetInvalidPathChars()) != -1 || !File.Exists(fPath))
+        {
+            if (fPath.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+                PrintWithColor("Путь содержит недопустимые символы, повторите попытку", ConsoleColor.Red);
+            if (!File.Exists(fPath))
+                PrintWithColor("Файл недоступен, повторите попытку", ConsoleColor.Red);
+            PrintWithColor($"Введите абсолютный путь до файла с входными данными: ", ConsoleColor.Blue);
+            fPath = Console.ReadLine();
+        }
+
+        return fPath;
+    }
+    public static string GetOutputPath(string inPath) 
     {
         string fPath;
         while (true)
         {
-            Console.Write($"Введите абсолютный путь до {fileName}: ");
+            PrintWithColor($"Введите абсолютный путь до файла куда хотите сохранить данные, он должен быть отличен от входного: ", ConsoleColor.Blue);
             fPath = Console.ReadLine();
-            while (string.IsNullOrEmpty(fPath))
+            if (fPath == inPath)
             {
-                Console.WriteLine("Файл пустой, повторите попытку");
-                Console.Write($"Введите абсолютный путь до {fileName}: ");
-                fPath = Console.ReadLine();
+                PrintWithColor("Путь должен быть отличен от входного, повторите попытку", ConsoleColor.Red);
+                continue;
             }
-
-            if (File.Exists(fPath) && fPath.IndexOfAny(Path.GetInvalidPathChars()) == -1)
+            if (fPath.IndexOfAny(Path.GetInvalidPathChars()) == -1)
             {
                 return fPath;
             }
-            Console.WriteLine("Путь некорректный или файла не существует, повторите попытку");
+            PrintWithColor("Путь имеет недопустимые символы, повторите попытку", ConsoleColor.Red);
             continue;
         }
     }
-
     internal static bool CheckFileStructure(string path)
     {
         StreamReader file = new StreamReader(path);
@@ -94,20 +102,17 @@ public class Methods
         }
         return false;
     }
-    public static void InputN(out int N)
+    public static void InputN(out int N, string fPath)
     {
-        Console.WriteLine("Введите название текстового файла с ровно одним числом (количество строк зубчатого массива): ");
-        string fPath = GetPath(GetName());
-
         while (!CheckFileStructure(fPath))
         {
-            Console.WriteLine("В файл записано не только число, либо число слишком большое, либо вовсе не число.");
-            Console.Write("Повторите попытку. Введите другой файл: ");
-            fPath = GetPath(GetName());
+            PrintWithColor("Файл с неправильной структурой. Повторите попытку", ConsoleColor.Red);
+            fPath = GetInputPath();
         }
 
         StreamReader file = new StreamReader(fPath);
         string line = file.ReadLine();
         N = int.Parse(line);
+        file.Close();
     }
 }

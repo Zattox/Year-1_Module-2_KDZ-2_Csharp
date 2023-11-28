@@ -5,34 +5,38 @@
   Вариант:     12
 */
 
+using System.Drawing;
+
 internal class Program
 {
     //  Точка запуска.
     static void Main()
     {
-        Console.WriteLine("Здравствуйте!");
+        Methods.PrintWithColor("Здравствуйте!", ConsoleColor.White);
         while (true)
         {
             try
             {
-                Methods.InputN(out int N);
+                Methods.PrintWithColor("Файл с входными данными должен иметь ровно 1 число", ConsoleColor.Yellow);
+                string inputPath = Methods.GetInputPath();
+                Methods.InputN(out int N, inputPath);
                 NumbJagged arr = new NumbJagged(N);
 
-                Console.WriteLine("Введите названия файла куда хотите сохранить данные");
-                string outPath = Methods.GetPath(Methods.GetName()); 
-                Methods.PrintOfArrayInfo(arr.jagArr, outPath);
-                Console.WriteLine("Данные успешно сохранены!");
-                Console.WriteLine("Если не хотите повторять решение нажмите на ESC");
+                Methods.PrintOfArrayInfo(arr.jagArr, Methods.GetOutputPath(inputPath));
+                Methods.PrintWithColor("Данные успешно сохранены!", ConsoleColor.Green);
+
+                Methods.PrintWithColor("Если не хотите повторять решение нажмите на ESC", ConsoleColor.Yellow);
                 if (Console.ReadKey(true).Key == ConsoleKey.Escape)
                 {
-                    Console.WriteLine("Программа завершена. Спасибо!");
+                    Methods.PrintWithColor("Программа завершена. Спасибо!", ConsoleColor.Green);
                     break;
                 }
+                Console.Clear();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Тип ошибки: " + ex.GetType);
-                Console.WriteLine("Сообщение ошибки: " + ex.Message);
+                Methods.PrintWithColor("Тип ошибки: " + ex.GetType, ConsoleColor.Red);
+                Methods.PrintWithColor("Сообщение ошибки: " + ex.Message, ConsoleColor.Yellow);
 
                 Console.WriteLine("Хотите попробовать еще раз?");
                 Console.WriteLine("1. Да");
@@ -43,7 +47,7 @@ internal class Program
                         Console.Clear();
                         continue;
                     case ConsoleKey.D2:
-                        Console.WriteLine("Программа завершена. Спасибо!");
+                        Methods.PrintWithColor("Программа завершена. Спасибо!", ConsoleColor.Green);
                         return;
                 }
             }
