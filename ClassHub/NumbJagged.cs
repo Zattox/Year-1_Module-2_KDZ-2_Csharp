@@ -1,11 +1,15 @@
 ﻿public class NumbJagged
 {
-    private const int minElement = 0, maxElement = 5;
+    private const int minElement = 0, maxElement = 5; //Константы генератора случайных чисел.
     public int[][] jagArr;
+
+    //Пустой конструктор.
     public NumbJagged()
     {
         jagArr = new int[0][];
     }
+
+    //Конструктор зубчатого массива.
     public NumbJagged(int N)
     {
         if (N < 0)
@@ -14,6 +18,7 @@
         Random rnd = new Random();
         jagArr = new int[N][];
 
+        //Заполнение зубчатого массива случайными числами от minElement до maxElement.
         for (int i = 0; i < N; ++i)
         {
             string str = String.Empty;
@@ -32,6 +37,8 @@
             }
         }
     }
+
+    //Преобразование зубчатого массива в массив строк для вывода.
     internal static string[] StringOut(int[][] arr)
     {
         string[] outArr = new string[arr.GetLength(0)];
@@ -48,9 +55,10 @@
         return outArr;
     }
 
+    //Поиск треугольника с максимальной площадью в выбранной строке зубчатого массива.
     internal static int[] MinSquareNumb(int[][] arr, int numOfRow)
     {
-        numOfRow -= 1;
+        numOfRow -= 1; //Предпологается, что номер строке задан начиная с 1.
         if (numOfRow < 0)
             throw new ArgumentOutOfRangeException("Номер строки не может быть меньше 1");
         if (numOfRow >= arr.GetLength(0))
@@ -60,17 +68,17 @@
 
         int n = arr[numOfRow].Length;
         int[] ans = new int[3];
-        double squareCur = 0;
-
+        double squareCur = 0; //Текущая максимальная площадь.
+       
         for (int i = 0; i < n; ++i)
         {
             for (int j = i + 1; j < n; ++j)
             {
                 for (int g = j + 1; g < n; ++g)
                 {
-                    if (Methods.ExistenceOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g]))
+                    if (Methods.ExistenceOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g])) //Проверка на существование треугольнка.
                     {
-                        double squareNew = Methods.SquareOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g]);
+                        double squareNew = Methods.SquareOfTriangle(arr[numOfRow][i], arr[numOfRow][j], arr[numOfRow][g]); //Поиск площади треугольника. 
                         if (squareNew > squareCur)
                         {
                             ans[0] = arr[numOfRow][i];

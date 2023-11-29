@@ -4,9 +4,6 @@
   Задача:      Контрольное домашнее задание 2, модуль 2
   Вариант:     12
 */
-
-using System.Drawing;
-
 internal class Program
 {
     //  Точка запуска.
@@ -17,11 +14,13 @@ internal class Program
         {
             try
             {
+                //Получение входных данных и построение зубчатого массива по ним.
                 Methods.PrintWithColor("Файл с входными данными должен иметь ровно 1 число", ConsoleColor.Yellow);
                 string inputPath = Methods.GetInputPath();
                 Methods.InputN(out int N, inputPath);
                 NumbJagged arr = new NumbJagged(N);
-
+                
+                //Вывод в файл нужных данных по ТЗ.
                 Methods.PrintOfArrayInfo(arr.jagArr, Methods.GetOutputPath(inputPath));
                 Methods.PrintWithColor("Данные успешно сохранены!", ConsoleColor.Green);
 
@@ -35,6 +34,7 @@ internal class Program
             }
             catch (Exception ex)
             {
+                //Общая обработка всех исключений.
                 Methods.PrintWithColor("Тип ошибки: " + ex.GetType, ConsoleColor.Red);
                 Methods.PrintWithColor("Сообщение ошибки: " + ex.Message, ConsoleColor.Yellow);
 

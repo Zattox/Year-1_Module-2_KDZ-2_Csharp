@@ -1,14 +1,12 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Numerics;
-
-public class Methods
+﻿public class Methods
 {
+    //Проверка существования треугольника при помощи неравенства треугольника.
     internal static bool ExistenceOfTriangle(int a, int b, int c)
     {
         return a + b > c && a + c > b && b + c > a;
     }
+
+    //Подсчет площади треуголька в квадрате во избежания ошибок при сравненнии в double.
     internal static double SquareOfTriangle(int a, int b, int c)
     {
         int p = (a + b + c) / 2;
@@ -16,11 +14,13 @@ public class Methods
         return s;
     }
 
+    //Метод, который печает нужные данные по ТЗ.
     public static void PrintOfArrayInfo(int[][] jaggerArr, string nPath)
     {
 
         StreamWriter sw = new StreamWriter(nPath);
 
+        //Печатаем сам созданный зубчаты массив.
         sw.WriteLine("Зубчатый массив: ");
         string[] ans = NumbJagged.StringOut(jaggerArr);
         for (int i = 0; i < ans.Length; i++)
@@ -28,6 +28,7 @@ public class Methods
             sw.WriteLine(ans[i]);
         }
 
+        //Печатаем информацию о наибольшем трегольнике по площади в строке. 
         for (int i = 0; i < jaggerArr.Length; ++i)
         {
             if (jaggerArr[i].Length >= 3)
@@ -50,12 +51,16 @@ public class Methods
         sw.Close();
 
     }
+
+    //Метод для печатания с выбранным цветом в консоль.
     public static void PrintWithColor(string message, ConsoleColor color)
     {
         Console.ForegroundColor = color;
         Console.WriteLine(message, color);
         Console.ForegroundColor= ConsoleColor.White;
     }
+
+    //Метод, который ищет корректный абсолютный путь до файла с входными данными.
     public static string GetInputPath()
     {
         PrintWithColor($"Введите абсолютный путь до файла с входными данными: ", ConsoleColor.Blue);
@@ -72,6 +77,8 @@ public class Methods
 
         return fPath;
     }
+
+    //Метод, который ищет корректный абсолютный путь до файла с выходными данными.
     public static string GetOutputPath(string inPath) 
     {
         string fPath;
@@ -92,6 +99,8 @@ public class Methods
             continue;
         }
     }
+
+    //Метод, который проверяет структуру файла (в файле дожно быть только одно число).
     internal static bool CheckFileStructure(string path)
     {
         StreamReader file = new StreamReader(path);
@@ -102,11 +111,13 @@ public class Methods
         }
         return false;
     }
+
+    //Метод, возращающий корректное значение N из входного файла.
     public static void InputN(out int N, string fPath)
     {
         while (!CheckFileStructure(fPath))
         {
-            PrintWithColor("Файл с неправильной структурой. Повторите попытку", ConsoleColor.Red);
+            PrintWithColor("Файл с неправильной структурой или в файле не число. Повторите попытку", ConsoleColor.Red);
             fPath = GetInputPath();
         }
 
