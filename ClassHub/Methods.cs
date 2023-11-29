@@ -20,9 +20,9 @@
 
         StreamWriter sw = new StreamWriter(nPath);
 
-        //Печатаем сам созданный зубчаты массив.
+        //Печатаем сам созданный зубчатый массив.
         sw.WriteLine("Зубчатый массив: ");
-        string[] ans = NumbJagged.StringOut(jaggerArr);
+        string[] ans = NumbJagged.StringOut(jaggerArr); //Предпологаю, что в условии ошибка и надо вывести созданным методом а не AsString().
         for (int i = 0; i < ans.Length; i++)
         {
             sw.WriteLine(ans[i]);
