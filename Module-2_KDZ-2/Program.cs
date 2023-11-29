@@ -19,11 +19,26 @@ internal class Program
                 string inputPath = Methods.GetInputPath();
                 Methods.InputN(out int N, inputPath);
                 NumbJagged arr = new NumbJagged(N);
-                
-                //Вывод в файл нужных данных по ТЗ.
-                Methods.PrintOfArrayInfo(arr.jagArr, Methods.GetOutputPath(inputPath));
-                Methods.PrintWithColor("Данные успешно сохранены!", ConsoleColor.Green);
 
+                //Вывод в файл нужных данных по ТЗ.
+                Methods.PrintOfArrayInfo(arr.jagArr);
+
+                //Сохранение данных.
+                Methods.PrintWithColor("Хотите сохранить данные?", ConsoleColor.Yellow);
+                Methods.PrintWithColor("1. Да", ConsoleColor.Green);
+                Methods.PrintWithColor("2. Нет", ConsoleColor.Red);
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.D1:
+                        Methods.PrintOfArrayInfo(arr.jagArr, Methods.GetOutputPath(inputPath));
+                        Methods.PrintWithColor("Данные успешно сохранены!", ConsoleColor.Green);
+                        break;
+                    case ConsoleKey.D2:
+                        Methods.PrintWithColor("Данные будут утеряны", ConsoleColor.Yellow);
+                        break;
+                }
+
+                //Повтор решения.
                 Methods.PrintWithColor("Если не хотите повторять решение нажмите на ESC", ConsoleColor.Yellow);
                 if (Console.ReadKey(true).Key == ConsoleKey.Escape)
                 {

@@ -1,4 +1,6 @@
-﻿public class Methods
+﻿using System.Text;
+
+public class Methods
 {
     //Проверка существования треугольника при помощи неравенства треугольника.
     internal static bool ExistenceOfTriangle(int a, int b, int c)
@@ -15,10 +17,18 @@
     }
 
     //Метод, который печает нужные данные по ТЗ.
-    public static void PrintOfArrayInfo(int[][] jaggerArr, string nPath)
+    public static void PrintOfArrayInfo(int[][] jaggerArr, string nPath = "-")
     {
 
-        StreamWriter sw = new StreamWriter(nPath);
+        StreamWriter sw;
+        if (nPath != "-") //Для вывода в файл.
+            sw = new StreamWriter(nPath);
+        else //Для вывода в консоль.
+        {
+            sw = new StreamWriter(Console.OpenStandardOutput());
+            sw.AutoFlush = true;
+            Console.OutputEncoding = Encoding.UTF8;
+        }
 
         //Печатаем сам созданный зубчатый массив.
         sw.WriteLine("Зубчатый массив: ");
