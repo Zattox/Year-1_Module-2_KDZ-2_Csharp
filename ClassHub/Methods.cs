@@ -141,7 +141,9 @@ public class Methods
         string line = file.ReadLine();
         if (line != null)
         {
-            return int.TryParse(line, out _);
+            if (int.TryParse(line, out int x)
+                return x > 0;
+            return false;
         }
         return false;
     }
