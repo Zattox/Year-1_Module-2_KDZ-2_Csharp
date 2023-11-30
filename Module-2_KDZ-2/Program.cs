@@ -9,11 +9,12 @@ internal class Program
     //  Точка запуска.
     static void Main()
     {
-        Methods.PrintWithColor("Здравствуйте!", ConsoleColor.White);
         while (true)
         {
             try
             {
+                Methods.PrintWithColor("Внимание! Все файлы размещаются обязательно рядом с исполняемым файлом консольного приложения", ConsoleColor.Cyan);
+
                 //Получение входных данных и построение зубчатого массива по ним.
                 Methods.PrintWithColor("Файл с входными данными должен иметь ровно 1 число", ConsoleColor.Yellow);
                 string inputPath = Methods.GetInputPath();

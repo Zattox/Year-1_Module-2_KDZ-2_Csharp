@@ -70,19 +70,43 @@ public class Methods
         Console.ForegroundColor= ConsoleColor.White;
     }
 
+    public static string GetName()
+    {
+        string fileName;
+        while (true)
+        {
+            fileName = Console.ReadLine();
+            int len = fileName.Length;
+            while (fileName.IndexOfAny(Path.GetInvalidPathChars()) != -1 || len < 5 || !fileName.EndsWith(".txt"))
+            {
+                if (fileName.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+                    PrintWithColor("Вы ввели файл с недопустимыми символами. Повторите попытку", ConsoleColor.Red);
+                if (len < 5)
+                    PrintWithColor("Вы ввели файл без названия", ConsoleColor.Red);
+                if (!fileName.EndsWith(".txt"))
+                    PrintWithColor("Вы ввели файл без расширения .txt", ConsoleColor.Red);
+                PrintWithColor("Введите названия текстового файла c расширением: ", ConsoleColor.Blue);
+                fileName = Console.ReadLine();
+                len = fileName.Length;
+            }
+            return fileName;
+        }
+    }
+
     //Метод, который ищет корректный абсолютный путь до файла с входными данными.
     public static string GetInputPath()
     {
-        PrintWithColor($"Введите абсолютный путь до файла с входными данными: ", ConsoleColor.Blue);
-        string fPath = Console.ReadLine();
+        PrintWithColor($"Введите название файла с входными данными c расширением: ", ConsoleColor.Blue);
+        string fPath = GetName();
         while (fPath.IndexOfAny(Path.GetInvalidPathChars()) != -1 || !File.Exists(fPath))
         {
             if (fPath.IndexOfAny(Path.GetInvalidPathChars()) != -1)
                 PrintWithColor("Путь содержит недопустимые символы, повторите попытку", ConsoleColor.Red);
-            if (!File.Exists(fPath))
+            else if (!File.Exists(fPath))
                 PrintWithColor("Файл недоступен, повторите попытку", ConsoleColor.Red);
-            PrintWithColor($"Введите абсолютный путь до файла с входными данными: ", ConsoleColor.Blue);
-            fPath = Console.ReadLine();
+
+            PrintWithColor($"Введите название файла с входными данными: ", ConsoleColor.Blue);
+            fPath = GetName();
         }
 
         return fPath;
@@ -94,11 +118,11 @@ public class Methods
         string fPath;
         while (true)
         {
-            PrintWithColor($"Введите абсолютный путь до файла куда хотите сохранить данные, он должен быть отличен от входного: ", ConsoleColor.Blue);
-            fPath = Console.ReadLine();
+            PrintWithColor($"Введите название файла куда хотите сохранить данные, он должен быть отличен от входного: ", ConsoleColor.Blue);
+            fPath = GetName();
             if (fPath == inPath)
             {
-                PrintWithColor("Путь должен быть отличен от входного, повторите попытку", ConsoleColor.Red);
+                PrintWithColor("Файл должен быть отличен от входного, повторите попытку", ConsoleColor.Red);
                 continue;
             }
             if (fPath.IndexOfAny(Path.GetInvalidPathChars()) == -1)
